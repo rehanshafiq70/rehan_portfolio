@@ -5,446 +5,1520 @@
 # ============================================================
 
 import streamlit as st
-
-# ── Page config ────────────────────────────────────────────
-st.set_page_config(
-    page_title="Rehan Shafique | AI Developer",
-    page_icon="🧬",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-
-# ── Custom CSS ─────────────────────────────────────────────
-st.markdown("""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Rehan Shafiq - AI Developer | Bioinformatics Student | Machine Learning Engineer at University of Agriculture Faisalabad">
+<meta name="keywords" content="AI Developer, Machine Learning, Deep Learning, Bioinformatics, Healthcare AI, Python, TensorFlow">
+<meta name="author" content="Rehan Shafiq">
+<title>Rehan Shafiq — AI Developer & Bioinformatics Researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
-/* ---- Google Font ---- */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
-
-html, body, [class*="css"] { font-family: 'Syne', sans-serif; }
-
-/* ---- Dark base ---- */
-.stApp { background: #050d1a; color: #e2e8f0; }
-
-/* ---- Sidebar ---- */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0a1628 0%, #050d1a 100%);
-    border-right: 1px solid #1e3a5f;
+:root {
+  --bg: #04040e;
+  --bg2: #07071a;
+  --bg3: #0c0c24;
+  --cyan: #00d4ff;
+  --cyan2: #00ffea;
+  --violet: #7c3aed;
+  --violet2: #a855f7;
+  --pink: #f0abfc;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --border: rgba(0,212,255,0.15);
+  --glow: 0 0 20px rgba(0,212,255,0.3);
+  --glow2: 0 0 40px rgba(0,212,255,0.15);
+  --grad: linear-gradient(135deg, #00d4ff, #7c3aed);
+  --grad2: linear-gradient(135deg, #7c3aed, #f0abfc);
 }
 
-/* ---- Cards ---- */
-.card {
-    background: rgba(14,30,60,.6);
-    border: 1px solid rgba(56,189,248,.15);
-    border-radius: 16px;
-    padding: 1.6rem 1.8rem;
-    margin-bottom: 1.2rem;
-    backdrop-filter: blur(10px);
-    transition: border-color .3s;
-}
-.card:hover { border-color: rgba(56,189,248,.5); }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ---- Skill badge ---- */
-.skill-badge {
-    display: inline-block;
-    background: linear-gradient(135deg,#0ea5e9,#6366f1);
-    color: #fff;
-    border-radius: 999px;
-    padding: .35rem 1rem;
-    margin: .3rem;
-    font-size: .82rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    letter-spacing: .04em;
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Exo 2', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: default;
 }
 
-/* ---- Hero gradient text ---- */
-.gradient-text {
-    background: linear-gradient(135deg,#38bdf8 0%,#818cf8 60%,#f472b6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+
+::selection { background: rgba(0,212,255,0.3); color: #fff; }
+
+/* ─── CUSTOM CURSOR ─── */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--cyan);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.1s, opacity 0.3s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(0,212,255,0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.3s ease, width 0.3s, height 0.3s;
 }
 
-/* ---- Progress bar label ---- */
-.skill-label {
-    font-family:'JetBrains Mono',monospace;
-    font-size:.78rem;
-    color:#94a3b8;
-    margin-bottom:.15rem;
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.2rem 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(4,4,14,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
 }
+nav.scrolled { padding: 0.8rem 5%; box-shadow: 0 4px 40px rgba(0,0,0,0.5); }
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--cyan);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.nav-links a:hover { color: var(--cyan); text-shadow: var(--glow); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+.hamburger span { width: 25px; height: 2px; background: var(--cyan); border-radius: 2px; transition: 0.3s; }
 
-/* ---- Section header ---- */
+/* ─── HERO ─── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+#three-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  padding: 0 5%;
+  padding-top: 90px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(0,212,255,0.4);
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  background: rgba(0,212,255,0.05);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s ease forwards;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+.hero-name {
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.8rem;
+  animation: fadeInUp 0.8s 0.1s ease both;
+}
+.hero-name .gradient-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-typed {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 1.5rem;
+  min-height: 2.5rem;
+  animation: fadeInUp 0.8s 0.2s ease both;
+}
+.hero-typed .type-text { color: var(--cyan2); }
+.cursor-blink {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--cyan);
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-intro {
+  font-size: 1.05rem;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  animation: fadeInUp 0.8s 0.3s ease both;
+}
+.hero-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  animation: fadeInUp 0.8s 0.4s ease both;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.8rem;
+  border-radius: 6px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 0 30px rgba(0,212,255,0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 50px rgba(0,212,255,0.5);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,255,0.5);
+}
+.btn-secondary:hover {
+  background: rgba(0,212,255,0.08);
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+  box-shadow: var(--glow);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--violet2);
+  border: 1px solid rgba(124,58,237,0.5);
+}
+.btn-outline:hover {
+  background: rgba(124,58,237,0.08);
+  border-color: var(--violet2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(124,58,237,0.3);
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text3);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeInUp 1s 1s ease both;
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--cyan), transparent);
+  animation: scrollAnim 2s infinite;
+}
+@keyframes scrollAnim { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+/* ─── SECTION BASE ─── */
+section { padding: 6rem 5%; }
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.section-label {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--cyan);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
 .section-title {
-    font-size:2rem; font-weight:800;
-    margin-bottom:1.2rem; margin-top:1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.section-title .glow { color: var(--cyan); text-shadow: 0 0 30px rgba(0,212,255,0.5); }
+.section-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.section-line span { width: 60px; height: 1px; background: var(--border); }
+.section-line i { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); display: block; box-shadow: var(--glow); }
+.section-subtitle { color: var(--text2); font-size: 1.05rem; font-weight: 300; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+/* ─── GRID PANELS ─── */
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
+
+/* ─── GLASSY CARD ─── */
+.card {
+  background: rgba(7,7,26,0.8);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0,212,255,0.4);
+  box-shadow: var(--glow2), 0 20px 60px rgba(0,0,0,0.4);
+}
+.card:hover::before { opacity: 1; }
+
+/* ─── ABOUT ─── */
+#about { background: var(--bg2); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.about-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.avatar-frame {
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  position: relative;
+}
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: var(--grad);
+  z-index: 0;
+  animation: rotateSlow 8s linear infinite;
+}
+.avatar-ring::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--bg2);
+}
+.avatar-inner {
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0c0c24, #1a1a3e);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  overflow: hidden;
+}
+.avatar-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,0.15), transparent 70%);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+@keyframes rotateSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.orbit-badges {
+  position: absolute;
+  inset: 0;
+  animation: rotateSlow 12s linear infinite;
+}
+.orbit-badge {
+  position: absolute;
+  padding: 0.35rem 0.8rem;
+  background: rgba(7,7,26,0.95);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--cyan);
+  white-space: nowrap;
+}
+.orbit-badge:nth-child(1) { top: -10px; left: 50%; transform: translateX(-50%); }
+.orbit-badge:nth-child(2) { top: 50%; right: -30px; transform: translateY(-50%); }
+.orbit-badge:nth-child(3) { bottom: -10px; left: 50%; transform: translateX(-50%); }
+.orbit-badge:nth-child(4) { top: 50%; left: -30px; transform: translateY(-50%); }
+.about-text h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.about-role {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  color: var(--violet2);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.about-text p { color: var(--text2); line-height: 1.8; margin-bottom: 1rem; font-weight: 300; }
+.about-stats {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: block;
+}
+.stat-label { font-size: 0.78rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+.tag {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  color: var(--cyan);
+  background: rgba(0,212,255,0.05);
+  font-weight: 500;
+  transition: all 0.3s;
+}
+.tag:hover { background: rgba(0,212,255,0.12); border-color: var(--cyan); box-shadow: var(--glow); }
+
+/* ─── PROJECTS ─── */
+#projects { background: var(--bg); }
+.project-card {
+  background: rgba(7,7,26,0.9);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.project-card:hover { transform: translateY(-8px); border-color: rgba(0,212,255,0.5); box-shadow: var(--glow2), 0 30px 80px rgba(0,0,0,0.5); }
+.project-image {
+  position: relative;
+  height: 220px;
+  background: linear-gradient(135deg, #07071a, #0c0c30);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.project-image-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 50%, rgba(0,212,255,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 70% 50%, rgba(124,58,237,0.12) 0%, transparent 50%);
+}
+.project-icon {
+  font-size: 5rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(0,212,255,0.4));
+}
+.project-badge {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(0,212,255,0.15);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.project-body { padding: 2rem; }
+.project-body h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+.project-tech {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin: 1rem 0;
+}
+.tech-tag {
+  padding: 0.25rem 0.7rem;
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--violet2);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+}
+.project-desc { color: var(--text2); line-height: 1.7; margin-bottom: 1.5rem; font-weight: 300; }
+.project-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--text2);
+}
+.feature-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  flex-shrink: 0;
+  box-shadow: var(--glow);
+}
+.project-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ─── SKILLS ─── */
+#skills { background: var(--bg2); }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.skills-column h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.skills-column h3 .h-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); display: block; box-shadow: var(--glow); }
+.skill-item { margin-bottom: 1.8rem; }
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.skill-name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+.skill-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--cyan);
+}
+.skill-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.skill-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--grad);
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 10px rgba(0,212,255,0.5);
+  position: relative;
+}
+.skill-fill::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--cyan2);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--cyan2);
 }
 
-/* ---- Button override ---- */
-div.stButton > button {
-    background: linear-gradient(135deg,#0ea5e9,#6366f1);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-family:'Syne',sans-serif;
-    font-weight:700;
-    padding:.55rem 1.4rem;
-    transition: opacity .2s;
+/* ─── SOCIAL ─── */
+#connect { background: var(--bg); }
+.social-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
 }
-div.stButton > button:hover { opacity:.85; }
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 2rem 2.5rem;
+  background: rgba(7,7,26,0.8);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.3s;
+  cursor: pointer;
+  min-width: 140px;
+}
+.social-card:hover { transform: translateY(-8px); border-color: var(--cyan); box-shadow: var(--glow2); }
+.social-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  transition: all 0.3s;
+}
+.social-card.github .social-icon { background: rgba(255,255,255,0.06); }
+.social-card.linkedin .social-icon { background: rgba(0,119,181,0.15); }
+.social-card.instagram .social-icon { background: rgba(225,48,108,0.12); }
+.social-card:hover .social-icon { box-shadow: var(--glow); }
+.social-label { font-size: 0.85rem; font-weight: 600; color: var(--text2); }
+.social-handle { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--cyan); }
 
-/* ---- Link button ---- */
-.link-btn {
-    display:inline-block;
-    background:linear-gradient(135deg,#0ea5e9,#6366f1);
-    color:#fff !important;
-    text-decoration:none;
-    padding:.55rem 1.6rem;
-    border-radius:8px;
-    font-weight:700;
-    font-size:.9rem;
-    margin-right:.6rem;
-    transition:opacity .2s;
+/* ─── CONTACT ─── */
+#contact { background: var(--bg2); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: start;
 }
-.link-btn:hover{opacity:.82;}
+.contact-info h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.contact-info p { color: var(--text2); line-height: 1.8; margin-bottom: 2rem; font-weight: 300; }
+.contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.contact-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.contact-item-text { font-size: 0.9rem; color: var(--text2); }
+.contact-item-text strong { display: block; color: var(--text); margin-bottom: 0.2rem; font-weight: 600; }
+.contact-form {
+  background: rgba(7,7,26,0.8);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+}
+.form-group { margin-bottom: 1.5rem; }
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s;
+  resize: vertical;
+}
+.form-group textarea { min-height: 120px; }
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: rgba(0,212,255,0.5);
+  background: rgba(0,212,255,0.03);
+  box-shadow: var(--glow);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: var(--text3); }
+.btn-send {
+  width: 100%;
+  padding: 1rem;
+  background: var(--grad);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 30px rgba(0,212,255,0.25);
+}
+.btn-send:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,212,255,0.45); }
 
-/* ---- Project card ---- */
-.proj-card {
-    background:rgba(14,30,60,.7);
-    border:1px solid rgba(56,189,248,.2);
-    border-radius:18px;
-    padding:1.8rem;
-    margin-bottom:1.4rem;
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 3rem 5%;
+  text-align: center;
 }
-.proj-tag {
-    display:inline-block;
-    background:rgba(14,165,233,.15);
-    color:#38bdf8;
-    border:1px solid rgba(56,189,248,.3);
-    border-radius:999px;
-    padding:.2rem .8rem;
-    font-size:.74rem;
-    margin:.2rem;
-    font-family:'JetBrains Mono',monospace;
+.footer-logo {
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: var(--grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+.footer-tagline { font-size: 0.85rem; color: var(--text3); margin-bottom: 0.3rem; }
+.footer-uni { font-size: 0.82rem; color: var(--violet2); margin-bottom: 2rem; font-weight: 500; }
+.footer-socials { display: flex; justify-content: center; gap: 1.2rem; margin-bottom: 2rem; }
+.footer-social {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+.footer-social:hover { border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow); transform: translateY(-3px); }
+.footer-copy { font-size: 0.78rem; color: var(--text3); }
+.footer-copy span { color: var(--cyan); }
+.back-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 100;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--grad);
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(0,212,255,0.4);
+  transform: translateY(100px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.back-top.show { transform: translateY(0); }
+.back-top:hover { box-shadow: 0 0 35px rgba(0,212,255,0.6); }
+
+/* ─── GLOWING GRID BG ─── */
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  pointer-events: none;
 }
 
-/* ---- Contact input ---- */
-.stTextInput input, .stTextArea textarea {
-    background:#0a1628 !important;
-    color:#e2e8f0 !important;
-    border:1px solid #1e3a5f !important;
-    border-radius:8px !important;
+/* ─── REVEAL ANIMATIONS ─── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(4,4,14,0.98); padding: 1.5rem 5%; border-bottom: 1px solid var(--border); gap: 1.5rem; }
+  .nav-links.open { display: flex; }
+  .hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .avatar-frame { width: 200px; height: 200px; margin: 0 auto; }
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hero-btns { flex-direction: column; }
+  .btn { justify-content: center; }
+  .about-stats { justify-content: center; }
+  .cursor, .cursor-ring { display: none; }
+  .orbit-badge { display: none; }
+}
+
+@media (max-width: 480px) {
+  section { padding: 4rem 5%; }
+  .skills-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── FLOATING PARTICLES ─── */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatParticle linear infinite;
+  opacity: 0.4;
+}
+@keyframes floatParticle {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Neural network lines overlay */
+.neural-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 </style>
-""", unsafe_allow_html=True)
+</head>
+<body>
 
-# ══════════════════════════════════════════════════════════
-#  S I D E B A R
-# ══════════════════════════════════════════════════════════
-with st.sidebar:
-    st.markdown("""
-    <div style='text-align:center;padding:1.5rem 0 1rem;'>
-        <div style='width:90px;height:90px;border-radius:50%;
-             background:linear-gradient(135deg,#0ea5e9,#6366f1);
-             display:flex;align-items:center;justify-content:center;
-             font-size:2.4rem;margin:0 auto .8rem;'>🧬</div>
-        <div style='font-size:1.1rem;font-weight:800;color:#f8fafc;'>Rehan Shafique</div>
-        <div style='font-size:.78rem;color:#64748b;font-family:"JetBrains Mono",monospace;
-             margin-top:.3rem;'>AI Developer · ML Engineer</div>
-        <div style='font-size:.74rem;color:#475569;margin-top:.25rem;'>🎓 UAF, Pakistan</div>
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Back to top -->
+<button class="back-top" id="backTop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">RS</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#projects" onclick="closeNav()">Projects</a></li>
+    <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+    <li><a href="#connect" onclick="closeNav()">Connect</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <canvas id="three-canvas"></canvas>
+  <div class="grid-bg"></div>
+  <div class="neural-overlay" id="neuralOverlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Available for Collaboration
     </div>
-    <hr style='border-color:#1e3a5f;margin:.5rem 0 1.2rem;'>
-    """, unsafe_allow_html=True)
-
-    page = st.radio(
-        "Navigate",
-        ["🏠 Home", "👤 About", "⚡ Skills", "🚀 Projects", "📬 Contact"],
-        label_visibility="collapsed",
-    )
-
-    st.markdown("""
-    <hr style='border-color:#1e3a5f;margin:1.2rem 0 .8rem;'>
-    <div style='font-size:.76rem;color:#475569;text-align:center;'>
-        📧 rehanshafiq6540@gmail.com<br>
-        <span style='color:#1e3a5f;'>──────────────────</span><br>
-        © 2026 Rehan Shafique
-    </div>
-    """, unsafe_allow_html=True)
-
-# ══════════════════════════════════════════════════════════
-#  P A G E S
-# ══════════════════════════════════════════════════════════
-
-# ── HOME ──────────────────────────────────────────────────
-if page == "🏠 Home":
-    st.markdown("""
-    <div style='min-height:10px;'></div>
-    <div style='font-family:"JetBrains Mono",monospace;color:#0ea5e9;
-         font-size:.88rem;letter-spacing:.12em;margin-bottom:.4rem;'>
-        // HELLO, WORLD
-    </div>
-    <h1 style='font-size:3.4rem;font-weight:800;line-height:1.1;margin:0 0 .6rem;'>
-        Hi, I'm <span class="gradient-text">Rehan Shafique</span>
+    <h1 class="hero-name">
+      Rehan <span class="gradient-text">Shafiq</span>
     </h1>
-    <h2 style='font-size:1.4rem;font-weight:400;color:#94a3b8;margin:0 0 1.6rem;'>
-        AI Developer &nbsp;·&nbsp; Machine Learning Engineer &nbsp;·&nbsp; Bioinformatics Student
-    </h2>
-    <p style='font-size:1.05rem;color:#cbd5e1;max-width:680px;line-height:1.75;margin-bottom:2rem;'>
-        Building intelligent systems at the intersection of <strong style='color:#38bdf8;'>
-        Artificial Intelligence</strong> and <strong style='color:#818cf8;'>Bioinformatics</strong>.
-        Passionate about turning biological data into life-saving AI solutions.
-    </p>
-    """, unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns([1, 1, 2])
-    with c1:
-        if st.button("🚀 View Projects"):
-            st.info("Navigate to **Projects** in the sidebar →")
-    with c2:
-        if st.button("📬 Contact Me"):
-            st.info("Navigate to **Contact** in the sidebar →")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Quick-stat row
-    s1, s2, s3, s4 = st.columns(4)
-    stats = [
-        ("🧠", "AI / ML", "Expert"),
-        ("🧬", "Bioinformatics", "Researcher"),
-        ("📦", "Projects", "5 +"),
-        ("🎓", "UAF Pakistan", "B.Sc Student"),
-    ]
-    for col, (icon, label, val) in zip([s1,s2,s3,s4], stats):
-        col.markdown(f"""
-        <div class="card" style='text-align:center;'>
-            <div style='font-size:2rem;'>{icon}</div>
-            <div style='font-weight:700;color:#f8fafc;font-size:1.05rem;margin:.3rem 0 .1rem;'>{val}</div>
-            <div style='font-size:.78rem;color:#64748b;'>{label}</div>
-        </div>""", unsafe_allow_html=True)
-
-    # Featured project teaser
-    st.markdown("""
-    <div class='proj-card' style='margin-top:1.5rem;'>
-        <div style='font-size:.78rem;color:#0ea5e9;font-family:"JetBrains Mono",monospace;
-             letter-spacing:.1em;margin-bottom:.5rem;'>// FEATURED PROJECT</div>
-        <div style='font-size:1.4rem;font-weight:800;color:#f8fafc;margin-bottom:.5rem;'>
-            🩺 Skin Cancer Prediction System
-        </div>
-        <p style='color:#94a3b8;line-height:1.7;margin-bottom:1rem;'>
-            AI-powered skin cancer detection using CNN deep-learning models,
-            deployed as an interactive Streamlit web application.
-        </p>
-        <span class='proj-tag'>TensorFlow</span>
-        <span class='proj-tag'>CNN</span>
-        <span class='proj-tag'>Streamlit</span>
-        <span class='proj-tag'>Keras</span>
-        <span class='proj-tag'>Medical AI</span>
-        <br><br>
-        <a class='link-btn' href='https://skincancerpredictions.streamlit.app/' target='_blank'>
-            👉 Open Live Project
-        </a>
+    <div class="hero-typed">
+      I am a <span class="type-text" id="typedText"></span><span class="cursor-blink"></span>
     </div>
-    """, unsafe_allow_html=True)
+    <p class="hero-intro">
+      Passionate AI Developer specializing in Machine Learning, Deep Learning, and Healthcare AI solutions. Building tomorrow's intelligent systems at the intersection of biology and artificial intelligence.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary">🚀 View Projects</a>
+      <a href="#contact" class="btn btn-secondary">✉ Contact Me</a>
+      <a href="#" class="btn btn-outline" onclick="return false;" title="Download CV">⬇ Download CV</a>
+    </div>
+  </div>
 
-# ── ABOUT ─────────────────────────────────────────────────
-elif page == "👤 About":
-    st.markdown('<h1 class="section-title gradient-text">About Me</h1>', unsafe_allow_html=True)
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
 
-    col_a, col_b = st.columns([2, 1])
-    with col_a:
-        st.markdown("""
-        <div class='card'>
-        <p style='color:#cbd5e1;line-height:1.85;font-size:1rem;'>
-        I'm <strong style='color:#38bdf8;'>Rehan Shafique</strong>, an AI Developer and
-        Bioinformatics student at the <strong style='color:#818cf8;'>University of Agriculture
-        Faisalabad (UAF), Pakistan</strong>. I specialise in building end-to-end machine
-        learning pipelines and deploying intelligent web applications that solve real-world
-        problems — particularly in healthcare and life sciences.
-        </p>
-        <p style='color:#cbd5e1;line-height:1.85;font-size:1rem;margin-top:.8rem;'>
-        My academic background in <strong style='color:#38bdf8;'>Bioinformatics</strong> gives me a
-        unique lens through which I apply Deep Learning to genomics, proteomics, and medical
-        imaging. My flagship project — a <em>Skin Cancer Prediction System</em> powered by
-        convolutional neural networks — exemplifies my commitment to AI for social good.
-        </p>
-        <p style='color:#94a3b8;line-height:1.85;font-size:.95rem;margin-top:.8rem;'>
-        When I'm not training models, I contribute to open-source research, write technical
-        articles, and mentor junior developers. I believe the future of medicine will be
-        written in Python.
-        </p>
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="section-header reveal">
+    <div class="section-label">// about.me</div>
+    <h2 class="section-title">The <span class="glow">Mind</span> Behind the Code</h2>
+    <div class="section-line"><span></span><i></i><span></span></div>
+    <p class="section-subtitle">Building AI at the frontier of life sciences and machine intelligence.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="avatar-frame">
+        <div class="avatar-glow"></div>
+        <div class="avatar-ring"></div>
+        <div class="avatar-inner">🧠</div>
+        <div class="orbit-badges">
+          <span class="orbit-badge">🧬 Bioinformatics</span>
+          <span class="orbit-badge">🤖 Deep Learning</span>
+          <span class="orbit-badge">🐍 Python</span>
+          <span class="orbit-badge">📊 Data Science</span>
         </div>
-        """, unsafe_allow_html=True)
+      </div>
+    </div>
 
-    with col_b:
-        st.markdown("""
-        <div class='card'>
-            <div style='font-size:.78rem;color:#0ea5e9;font-family:"JetBrains Mono",monospace;
-                 letter-spacing:.1em;margin-bottom:.9rem;'>// QUICK FACTS</div>
-            <table style='width:100%;font-size:.88rem;color:#94a3b8;border-collapse:collapse;'>
-                <tr><td style='padding:.4rem 0;'>📛</td><td><strong style='color:#f8fafc;'>Rehan Shafique</strong></td></tr>
-                <tr><td>🎓</td><td>UAF, Pakistan</td></tr>
-                <tr><td>🌍</td><td>Faisalabad, Pakistan</td></tr>
-                <tr><td>📧</td><td style='word-break:break-all;'>rehanshafiq6540@gmail.com</td></tr>
-                <tr><td>💼</td><td>AI / ML Engineer</td></tr>
-                <tr><td>🔬</td><td>Bioinformatics Researcher</td></tr>
-                <tr><td>🛠️</td><td>Python · TensorFlow · Streamlit</td></tr>
-            </table>
+    <div class="about-text reveal">
+      <h3>Rehan Shafiq</h3>
+      <div class="about-role">AI Developer · Bioinformatics Student · ML Researcher</div>
+      <p>Currently pursuing my <strong>7th Semester of Bioinformatics</strong> at the <strong>University of Agriculture Faisalabad</strong>, I stand at the unique crossroads of biological sciences and artificial intelligence.</p>
+      <p>My work focuses on creating intelligent systems that can transform healthcare — from skin cancer prediction models to AI-powered diagnostic tools. Every model I build is a step toward democratizing medical intelligence.</p>
+      <p>When I'm not training neural networks, I'm exploring the next frontier in healthcare AI and bioinformatics research.</p>
+
+      <div class="about-stats">
+        <div class="stat-item">
+          <span class="stat-num">7th</span>
+          <span class="stat-label">Semester</span>
         </div>
-        """, unsafe_allow_html=True)
+        <div class="stat-item">
+          <span class="stat-num">5+</span>
+          <span class="stat-label">AI Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">3+</span>
+          <span class="stat-label">Years Coding</span>
+        </div>
+      </div>
 
-# ── SKILLS ────────────────────────────────────────────────
-elif page == "⚡ Skills":
-    st.markdown('<h1 class="section-title gradient-text">Skills & Expertise</h1>', unsafe_allow_html=True)
+      <div class="tag-cloud">
+        <span class="tag">Python</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Streamlit</span>
+        <span class="tag">Data Science</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">AI Healthcare</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">Bioinformatics</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-    badge_skills = [
-        "Python","Machine Learning","Deep Learning","TensorFlow","Keras",
-        "Scikit-learn","Pandas","NumPy","Matplotlib","Seaborn",
-        "Streamlit","OpenCV","Bioinformatics","Data Science",
-        "CNN","NLP","Transfer Learning","Git","Linux","SQL"
-    ]
-    badges_html = "".join(f"<span class='skill-badge'>{s}</span>" for s in badge_skills)
-    st.markdown(f"<div style='margin-bottom:2rem;'>{badges_html}</div>", unsafe_allow_html=True)
+<!-- ─── PROJECTS ─── -->
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="section-label">// my.work</div>
+    <h2 class="section-title">Featured <span class="glow">Projects</span></h2>
+    <div class="section-line"><span></span><i></i><span></span></div>
+    <p class="section-subtitle">AI-powered solutions tackling real-world challenges in healthcare and beyond.</p>
+  </div>
 
-    st.markdown("---")
-    st.markdown("#### 📊 Proficiency")
+  <div class="project-card reveal">
+    <div class="project-image">
+      <div class="project-image-bg"></div>
+      <div class="project-icon">🔬</div>
+      <div class="project-badge">Live</div>
+    </div>
+    <div class="project-body">
+      <h3>Skin Cancer Prediction AI</h3>
+      <div class="project-tech">
+        <span class="tech-tag">Deep Learning</span>
+        <span class="tech-tag">CNN</span>
+        <span class="tech-tag">TensorFlow</span>
+        <span class="tech-tag">Streamlit</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Medical Imaging</span>
+      </div>
+      <p class="project-desc">
+        A production-grade Deep Learning system leveraging Convolutional Neural Networks for accurate skin cancer classification from medical images. Trained on clinical datasets, this model assists dermatologists with AI-powered second opinions — making early detection accessible to everyone.
+      </p>
+      <div class="project-features">
+        <div class="feature-item"><span class="feature-dot"></span> Medical image upload</div>
+        <div class="feature-item"><span class="feature-dot"></span> CNN classification</div>
+        <div class="feature-item"><span class="feature-dot"></span> Real-time AI results</div>
+        <div class="feature-item"><span class="feature-dot"></span> Confidence scoring</div>
+        <div class="feature-item"><span class="feature-dot"></span> Streamlit UI</div>
+        <div class="feature-item"><span class="feature-dot"></span> Cloud deployed</div>
+      </div>
+      <div class="project-actions">
+        <a href="https://skincancerpredictions.streamlit.app/" target="_blank" class="btn btn-primary">🚀 Live Demo</a>
+        <a href="https://github.com/rehanshafiq70" target="_blank" class="btn btn-secondary">⭐ GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    skills_pct = {
-        "Python": 95, "Machine Learning": 88, "Deep Learning / TensorFlow": 85,
-        "Data Science & Visualisation": 82, "Bioinformatics": 78,
-        "Streamlit Deployment": 90, "Research & Writing": 80,
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="section-header reveal">
+    <div class="section-label">// skill.set</div>
+    <h2 class="section-title">Technical <span class="glow">Arsenal</span></h2>
+    <div class="section-line"><span></span><i></i><span></span></div>
+    <p class="section-subtitle">Technologies I work with to build intelligent, scalable AI systems.</p>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skills-column reveal">
+      <h3><span class="h-dot"></span> Core Languages & Frameworks</h3>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">🐍 Python</span>
+          <span class="skill-pct">95%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">🧠 TensorFlow / Keras</span>
+          <span class="skill-pct">87%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="87"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">⚙️ Scikit-learn</span>
+          <span class="skill-pct">90%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">📊 Pandas & NumPy</span>
+          <span class="skill-pct">92%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="92"></div></div>
+      </div>
+    </div>
+
+    <div class="skills-column reveal">
+      <h3><span class="h-dot"></span> AI & Deployment</h3>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">📈 Data Visualization</span>
+          <span class="skill-pct">88%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="88"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">🚀 Streamlit Deployment</span>
+          <span class="skill-pct">85%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">👁️ Computer Vision</span>
+          <span class="skill-pct">82%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div>
+      </div>
+
+      <div class="skill-item">
+        <div class="skill-header">
+          <span class="skill-name">🏥 Healthcare AI</span>
+          <span class="skill-pct">80%</span>
+        </div>
+        <div class="skill-bar"><div class="skill-fill" data-pct="80"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOCIAL / CONNECT ─── -->
+<section id="connect">
+  <div class="section-header reveal">
+    <div class="section-label">// social.links</div>
+    <h2 class="section-title">Let's <span class="glow">Connect</span></h2>
+    <div class="section-line"><span></span><i></i><span></span></div>
+    <p class="section-subtitle">Find me across the web. Let's build something remarkable together.</p>
+  </div>
+
+  <div class="social-grid reveal">
+    <a href="https://github.com/rehanshafiq70" target="_blank" class="social-card github">
+      <div class="social-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style="color:#e2e8f0;">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </div>
+      <span class="social-label">GitHub</span>
+      <span class="social-handle">@rehanshafiq70</span>
+    </a>
+
+    <a href="https://www.linkedin.com/in/rehanshafiq70" target="_blank" class="social-card linkedin">
+      <div class="social-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#0077b5">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </div>
+      <span class="social-label">LinkedIn</span>
+      <span class="social-handle">@rehanshafiq70</span>
+    </a>
+
+    <a href="https://www.instagram.com/rehanshafiq70/" target="_blank" class="social-card instagram">
+      <div class="social-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="url(#ig-grad)">
+          <defs>
+            <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#f09433"/>
+              <stop offset="25%" style="stop-color:#e6683c"/>
+              <stop offset="50%" style="stop-color:#dc2743"/>
+              <stop offset="75%" style="stop-color:#cc2366"/>
+              <stop offset="100%" style="stop-color:#bc1888"/>
+            </linearGradient>
+          </defs>
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </div>
+      <span class="social-label">Instagram</span>
+      <span class="social-handle">@rehanshafiq70</span>
+    </a>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="section-header reveal">
+    <div class="section-label">// get.in.touch</div>
+    <h2 class="section-title">Send a <span class="glow">Message</span></h2>
+    <div class="section-line"><span></span><i></i><span></span></div>
+    <p class="section-subtitle">Have a project in mind? Let's collaborate and build something extraordinary.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Ready to collaborate?</h3>
+      <p>Whether you have a healthcare AI project, a research collaboration, or just want to talk about the future of machine learning — my inbox is always open.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">✉</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            rehanshafiq6540@gmail.com
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Location</strong>
+            Faisalabad, Pakistan
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🎓</div>
+          <div class="contact-item-text">
+            <strong>University</strong>
+            University of Agriculture Faisalabad
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💡</div>
+          <div class="contact-item-text">
+            <strong>Status</strong>
+            Open to AI Research & Collaboration
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="John Doe" id="cName">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com" id="cEmail">
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me about your project or idea..." id="cMsg"></textarea>
+      </div>
+      <button class="btn-send" onclick="handleSend()">🚀 Send Message</button>
+      <div id="formMsg" style="margin-top:1rem;text-align:center;font-size:0.9rem;display:none;color:var(--cyan);"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">Rehan Shafiq</div>
+  <div class="footer-tagline">AI Developer & Bioinformatics Researcher</div>
+  <div class="footer-uni">University of Agriculture Faisalabad</div>
+  <div class="footer-socials">
+    <a href="https://github.com/rehanshafiq70" target="_blank" class="footer-social" title="GitHub">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/rehanshafiq70" target="_blank" class="footer-social" title="LinkedIn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/rehanshafiq70/" target="_blank" class="footer-social" title="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+  </div>
+  <div class="footer-copy">AI Developer Portfolio © 2026 · <span>Rehan Shafiq</span> · Made with 🧠 + ❤</div>
+</footer>
+
+<script>
+// ─── THREE.JS NEURAL BRAIN ───
+(function() {
+  const canvas = document.getElementById('three-canvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 280;
+
+  // Particle sphere (brain)
+  const particleCount = 800;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+  const sizes = new Float32Array(particleCount);
+
+  const radius = 120;
+  for (let i = 0; i < particleCount; i++) {
+    const theta = Math.acos(2 * Math.random() - 1);
+    const phi = Math.random() * Math.PI * 2;
+    const r = radius * (0.7 + Math.random() * 0.3);
+    positions[i * 3]     = r * Math.sin(theta) * Math.cos(phi);
+    positions[i * 3 + 1] = r * Math.sin(theta) * Math.sin(phi);
+    positions[i * 3 + 2] = r * Math.cos(theta);
+
+    const t = Math.random();
+    if (t < 0.6) {
+      colors[i*3]=0; colors[i*3+1]=0.83; colors[i*3+2]=1; // cyan
+    } else {
+      colors[i*3]=0.49; colors[i*3+1]=0.23; colors[i*3+2]=0.93; // violet
     }
-    for skill, pct in skills_pct.items():
-        st.markdown(f"<div class='skill-label'>{skill} — {pct}%</div>", unsafe_allow_html=True)
-        st.progress(pct / 100)
+    sizes[i] = 2 + Math.random() * 3;
+  }
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("#### 🧰 Tools & Frameworks")
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-    t1, t2, t3 = st.columns(3)
-    tool_groups = [
-        ("🤖 AI / ML", ["TensorFlow", "Keras", "PyTorch (basic)", "Scikit-learn", "OpenCV"]),
-        ("📊 Data", ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly"]),
-        ("🚀 DevOps", ["Streamlit", "Git / GitHub", "VS Code", "Jupyter", "Linux CLI"]),
-    ]
-    for col, (title, items) in zip([t1, t2, t3], tool_groups):
-        items_html = "".join(f"<li style='color:#94a3b8;padding:.2rem 0;'>{i}</li>" for i in items)
-        col.markdown(f"""
-        <div class='card'>
-            <div style='font-weight:700;color:#38bdf8;margin-bottom:.6rem;'>{title}</div>
-            <ul style='margin:0;padding-left:1.2rem;list-style:disc;'>{items_html}</ul>
-        </div>""", unsafe_allow_html=True)
+  const material = new THREE.PointsMaterial({
+    size: 2.5,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.85,
+    sizeAttenuation: true,
+  });
 
-# ── PROJECTS ──────────────────────────────────────────────
-elif page == "🚀 Projects":
-    st.markdown('<h1 class="section-title gradient-text">Projects</h1>', unsafe_allow_html=True)
+  const brain = new THREE.Points(geometry, material);
+  scene.add(brain);
 
-    projects = [
-        {
-            "emoji": "🩺",
-            "title": "Skin Cancer Prediction System",
-            "desc": ("AI-powered skin cancer detection using Convolutional Neural Networks (CNN). "
-                     "Trained on the HAM10000 dermatoscopy dataset, achieving high accuracy in "
-                     "classifying 7 types of skin lesions. Deployed as an interactive Streamlit app "
-                     "with real-time image inference."),
-            "tags": ["TensorFlow","CNN","Keras","Streamlit","Medical AI","OpenCV"],
-            "demo": "https://skincancerpredictions.streamlit.app/",
-            "status": "✅ Live",
-        },
-        {
-            "emoji": "🧬",
-            "title": "Bioinformatics Sequence Analyser",
-            "desc": ("A Python toolkit for DNA/RNA sequence analysis, GC-content computation, "
-                     "ORF detection and BLAST integration. Designed for computational biology "
-                     "research workflows with a clean CLI interface."),
-            "tags": ["Python","BioPython","BLAST","Genomics","CLI"],
-            "demo": None,
-            "status": "🔧 In Development",
-        },
-        {
-            "emoji": "📊",
-            "title": "Protein Structure Prediction ML Pipeline",
-            "desc": ("Machine-learning pipeline that predicts secondary protein structures using "
-                     "LSTM-based sequence models. Benchmarked against PSIPRED with competitive "
-                     "Q3 accuracy on CASP targets."),
-            "tags": ["LSTM","BioPython","Scikit-learn","Pandas","Research"],
-            "demo": None,
-            "status": "🔬 Research Phase",
-        },
-        {
-            "emoji": "📈",
-            "title": "COVID-19 Data Dashboard",
-            "desc": ("Interactive data visualisation dashboard built with Streamlit and Plotly, "
-                     "displaying real-time global COVID-19 statistics, trend graphs, and "
-                     "country-level heatmaps fetched from the Our World in Data API."),
-            "tags": ["Streamlit","Plotly","Pandas","REST API","Dashboard"],
-            "demo": None,
-            "status": "✅ Complete",
-        },
-    ]
+  // Connection lines
+  const linePositions = [];
+  const lineColors = [];
+  const pts = [];
+  for (let i = 0; i < particleCount; i++) {
+    pts.push(new THREE.Vector3(positions[i*3], positions[i*3+1], positions[i*3+2]));
+  }
 
-    for p in projects:
-        tags_html = "".join(f"<span class='proj-tag'>{t}</span>" for t in p["tags"])
-        demo_btn = (f"<a class='link-btn' href='{p['demo']}' target='_blank'>👉 Live Demo</a>"
-                    if p["demo"] else "")
-        st.markdown(f"""
-        <div class='proj-card'>
-            <div style='display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;'>
-                <span style='font-size:1.8rem;'>{p['emoji']}</span>
-                <span style='font-size:1.25rem;font-weight:800;color:#f8fafc;'>{p['title']}</span>
-                <span style='margin-left:auto;font-size:.78rem;color:#64748b;
-                     font-family:"JetBrains Mono",monospace;'>{p['status']}</span>
-            </div>
-            <p style='color:#94a3b8;line-height:1.75;margin-bottom:.9rem;'>{p['desc']}</p>
-            <div style='margin-bottom:1rem;'>{tags_html}</div>
-            {demo_btn}
-        </div>""", unsafe_allow_html=True)
+  const maxConn = 600;
+  let conn = 0;
+  for (let i = 0; i < particleCount && conn < maxConn; i++) {
+    for (let j = i + 1; j < particleCount && conn < maxConn; j++) {
+      const d = pts[i].distanceTo(pts[j]);
+      if (d < 45) {
+        linePositions.push(pts[i].x, pts[i].y, pts[i].z);
+        linePositions.push(pts[j].x, pts[j].y, pts[j].z);
+        const alpha = 1 - d / 45;
+        lineColors.push(0, 0.7 * alpha, 0.9 * alpha);
+        lineColors.push(0, 0.7 * alpha, 0.9 * alpha);
+        conn++;
+      }
+    }
+  }
 
-# ── CONTACT ───────────────────────────────────────────────
-elif page == "📬 Contact":
-    st.markdown('<h1 class="section-title gradient-text">Get In Touch</h1>', unsafe_allow_html=True)
+  const lineGeo = new THREE.BufferGeometry();
+  lineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePositions), 3));
+  lineGeo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(lineColors), 3));
+  const lineMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.25 });
+  const lines = new THREE.LineSegments(lineGeo, lineMat);
+  scene.add(lines);
 
-    c1, c2 = st.columns([1.6, 1])
-    with c1:
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        name  = st.text_input("Your Name", placeholder="e.g. Ali Hassan")
-        email = st.text_input("Your Email", placeholder="you@example.com")
-        subj  = st.text_input("Subject", placeholder="Collaboration / Research / Freelance …")
-        msg   = st.text_area("Message", placeholder="Tell me about your project or idea …", height=160)
+  // Ambient outer glow ring
+  const ringGeo = new THREE.RingGeometry(135, 140, 128);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.06, side: THREE.DoubleSide });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  scene.add(ring);
 
-        if st.button("📤 Send Message"):
-            if name and email and msg:
-                st.success(f"✅ Thanks **{name}**! Your message has been received. I'll reply soon.")
-            else:
-                st.warning("Please fill in Name, Email, and Message.")
-        st.markdown("</div>", unsafe_allow_html=True)
+  // Mouse influence
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 0.3;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+  });
 
-    with c2:
-        st.markdown("""
-        <div class='card'>
-            <div style='font-size:.78rem;color:#0ea5e9;font-family:"JetBrains Mono",monospace;
-                 letter-spacing:.1em;margin-bottom:1rem;'>// CONTACT INFO</div>
-            <p style='color:#94a3b8;font-size:.92rem;line-height:1.75;'>
-                I'm open to research collaborations, freelance AI projects, and full-time
-                opportunities. Feel free to reach out!
-            </p>
-            <hr style='border-color:#1e3a5f;margin:1rem 0;'>
-            <div style='font-size:.88rem;color:#cbd5e1;'>
-                📧 <strong>Email</strong><br>
-                <span style='color:#64748b;font-family:"JetBrains Mono",monospace;
-                font-size:.78rem;'>rehanshafiq6540@gmail.com</span>
-            </div>
-            <div style='margin-top:.8rem;font-size:.88rem;color:#cbd5e1;'>
-                🏛️ <strong>Institution</strong><br>
-                <span style='color:#64748b;font-size:.8rem;'>
-                University of Agriculture Faisalabad, Pakistan
-                </span>
-            </div>
-            <div style='margin-top:.8rem;font-size:.88rem;color:#cbd5e1;'>
-                🌐 <strong>Live Project</strong><br>
-                <a href='https://skincancerpredictions.streamlit.app/'
-                   target='_blank'
-                   style='color:#38bdf8;font-size:.8rem;word-break:break-all;'>
-                    skincancerpredictions.streamlit.app
-                </a>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.004;
+    brain.rotation.y = t + mouseX;
+    brain.rotation.x = mouseY * 0.5;
+    lines.rotation.y = t + mouseX;
+    lines.rotation.x = mouseY * 0.5;
+    ring.rotation.z = t * 0.5;
+    ring.rotation.x = 0.4;
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+
+// ─── TYPING EFFECT ───
+(function() {
+  const words = ['AI Developer', 'ML Engineer', 'Bioinformatics Researcher', 'Healthcare AI Builder', 'Deep Learning Expert'];
+  let wi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typedText');
+
+  function type() {
+    const word = words[wi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ci + 1);
+      ci++;
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(type, 1800);
+        return;
+      }
+    } else {
+      el.textContent = word.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+      }
+    }
+    setTimeout(type, deleting ? 60 : 90);
+  }
+  setTimeout(type, 800);
+})();
+
+// ─── CUSTOM CURSOR ───
+(function() {
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = (e.clientX - 6) + 'px';
+    cursor.style.top = (e.clientY - 6) + 'px';
+    rx += (e.clientX - 18 - rx) * 0.12;
+    ry += (e.clientY - 18 - ry) * 0.12;
+  });
+
+  function updateRing() {
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(updateRing);
+  }
+  updateRing();
+
+  document.querySelectorAll('a,button,.card,.social-card,.project-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '60px'; ring.style.height = '60px';
+      ring.style.borderColor = 'rgba(0,212,255,0.9)';
+      cursor.style.transform = 'scale(1.5)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(0,212,255,0.6)';
+      cursor.style.transform = 'scale(1)';
+    });
+  });
+})();
+
+// ─── NAV SCROLL ───
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  const backTop = document.getElementById('backTop');
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+
+function toggleNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function closeNav() {
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+// ─── REVEAL ON SCROLL ───
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Trigger skill bars
+        e.target.querySelectorAll('.skill-fill').forEach(bar => {
+          bar.style.width = bar.dataset.pct + '%';
+        });
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+// ─── FLOATING PARTICLES ───
+(function() {
+  const hero = document.getElementById('hero');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 2 + Math.random() * 4;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:-10px;
+      background:${Math.random()>0.5?'#00d4ff':'#7c3aed'};
+      animation-duration:${8+Math.random()*15}s;
+      animation-delay:${Math.random()*10}s;
+      opacity:0;
+    `;
+    hero.appendChild(p);
+  }
+})();
+
+// ─── CONTACT FORM ───
+function handleSend() {
+  const n = document.getElementById('cName').value.trim();
+  const e = document.getElementById('cEmail').value.trim();
+  const m = document.getElementById('cMsg').value.trim();
+  const msg = document.getElementById('formMsg');
+  if (!n || !e || !m) {
+    msg.style.display = 'block';
+    msg.style.color = '#f472b6';
+    msg.textContent = '⚠ Please fill in all fields.';
+    return;
+  }
+  msg.style.display = 'block';
+  msg.style.color = 'var(--cyan)';
+  msg.textContent = '✅ Message sent! I\'ll get back to you soon.';
+  document.getElementById('cName').value = '';
+  document.getElementById('cEmail').value = '';
+  document.getElementById('cMsg').value = '';
+  setTimeout(() => { msg.style.display = 'none'; }, 4000);
+}
+</script>
+</body>
+</html>
+
+       
