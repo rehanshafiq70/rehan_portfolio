@@ -1,10 +1,3 @@
-# ============================================================
-#  Rehan Shafique — AI Developer Portfolio (Streamlit)
-#  University of Agriculture Faisalabad | Pakistan
-#  Email : rehanshafiq6540@gmail.com
-# ============================================================
-
-import streamlit as st
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1520,5 +1513,3 @@ function handleSend() {
 </script>
 </body>
 </html>
-
-       
