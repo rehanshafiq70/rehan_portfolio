@@ -38,6 +38,6 @@ with open(HTML_FILE, "r", encoding="utf-8") as f:
 # ─── PORTFOLIO RENDER KARO ──────────────────────────────────────
 components.html(
     html_content,
-    height=2000,
+    height=6000,
     scrolling=True,
 )
